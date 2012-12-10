@@ -27,7 +27,7 @@ class Admin::AssetsController < Admin::ResourceController
   def create
     @assets, @page_attachments = [], []
     params[:asset][:asset].to_a.each do |uploaded_asset|
-      @asset = Asset.create(:asset => uploaded_asset, :title => params[:asset][:title], :caption => params[:asset][:caption])
+      @asset = Asset.create(:asset => uploaded_asset, :title => params[:asset][:title], :caption => params[:asset][:caption], :slug => params[:asset][:slug], :category => params[:asset][:category])
       if params[:for_attachment]
         @page = Page.find_by_id(params[:page_id]) || Page.new
         @page_attachments << @page_attachment = @asset.page_attachments.build(:page => @page)
