@@ -40,7 +40,19 @@ class Admin::AssetsController < Admin::ResourceController
       response_for :create
     end
   end
-  
+
+  def update
+    if params[:id]
+      @asset = Asset.find(params[:id])
+
+      new_attachment = File.new(@asset.asset.path)
+      @asset.asset.destroy
+
+      @asset.update_attributes(params[:asset].merge('asset' => new_attachment))
+    end
+    redirect_to admin_assets_path
+  end
+
   def refresh
     if params[:id]
       @asset = Asset.find(params[:id])
