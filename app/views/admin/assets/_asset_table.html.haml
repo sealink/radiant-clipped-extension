@@ -27,7 +27,7 @@
           %td= asset.asset_file_size
           %td= asset.updated_at
           %td
-            = link_to "Download", asset.thumbnail(:normal), :class => 'download btn btn-small'
+            = link_to "Download", asset.thumbnail(:original), :target => '_blank', :class => 'download btn btn-small'
             = link_to "Edit", admin_asset_path(asset), :class => 'edit btn btn-small'
             = link_to "Remove", remove_admin_asset_path(asset), :class => 'delete btn btn-small'
   - else
