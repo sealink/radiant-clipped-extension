@@ -18,7 +18,7 @@ class Asset < ActiveRecord::Base
   }
 
   named_scope :matching, lambda { |term| 
-    { :conditions => ["LOWER(assets.asset_file_name) LIKE (:term) OR LOWER(title) LIKE (:term) OR LOWER(caption) LIKE (:term)", {:term => "%#{term.downcase}%" }] }
+    { :conditions => ["LOWER(assets.asset_file_name) LIKE (:term) OR LOWER(title) LIKE (:term) OR LOWER(caption) LIKE (:term) OR LOWER(slug) LIKE (:term) OR LOWER(category) LIKE (:term)", {:term => "%#{term.downcase}%" }] }
   }
 
   named_scope :except, lambda { |assets| 

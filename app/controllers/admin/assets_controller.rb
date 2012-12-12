@@ -19,7 +19,7 @@ class Admin::AssetsController < Admin::ResourceController
       format.html { render }
       format.js { 
         @page = Page.find_by_id(params[:page_id])
-        render :partial => 'asset_table', :locals => {:with_pagination => !!@page}
+        render :partial => 'asset_table', :locals => {:with_pagination => !!@page, :list_view => params[:list_view]}
       }
     end
   end
@@ -27,7 +27,7 @@ class Admin::AssetsController < Admin::ResourceController
   def create
     @assets, @page_attachments = [], []
     params[:asset][:asset].to_a.each do |uploaded_asset|
-      @asset = Asset.create(:asset => uploaded_asset, :title => params[:asset][:title], :caption => params[:asset][:caption])
+      @asset = Asset.create(:asset => uploaded_asset, :title => params[:asset][:title], :caption => params[:asset][:caption], :slug => params[:asset][:slug], :category => params[:asset][:category])
       if params[:for_attachment]
         @page = Page.find_by_id(params[:page_id]) || Page.new
         @page_attachments << @page_attachment = @asset.page_attachments.build(:page => @page)
@@ -40,7 +40,19 @@ class Admin::AssetsController < Admin::ResourceController
       response_for :create
     end
   end
-  
+
+  def update
+    if params[:id]
+      @asset = Asset.find(params[:id])
+
+      new_attachment = File.new(@asset.asset.path)
+      @asset.asset.destroy
+
+      @asset.update_attributes(params[:asset].merge('asset' => new_attachment))
+    end
+    redirect_to admin_assets_path
+  end
+
   def refresh
     if params[:id]
       @asset = Asset.find(params[:id])

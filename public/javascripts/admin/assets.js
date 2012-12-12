@@ -79,6 +79,21 @@ Asset.Attach = Behavior.create({
   }
 });
 
+Asset.ToggleView = Behavior.create({
+  onclick: function (e) {
+    if (e && jQuery('#attach_asset').length > 0) {
+      e.stop();
+      if (e.target.hasClassName('list')) {
+        $('list_view').value = 'true';
+      }
+      else {
+        $('list_view').value = '';
+      }
+      Asset.UpdateTable(true);
+    }
+  }
+});
+
 Asset.Detach = Behavior.create({
   onclick: function (e) {
     if (e) e.stop();
@@ -290,6 +305,7 @@ Event.addBehavior({
   'a.attach_asset': Asset.Attach,
   'a.detach_asset': Asset.Detach,
   'a.insert_asset': Asset.Insert,
+  'a.list-view-toggle': Asset.ToggleView,
   'a.deselective': Asset.DeselectFileTypes,
   'a.selective': Asset.SelectFileType,
   'form.search': Asset.SearchForm,
