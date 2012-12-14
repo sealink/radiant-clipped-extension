@@ -13,6 +13,7 @@
     = hidden_field_tag "list_view", params['list_view']
     %input{:type=>"search", :class=>"search", :name=>"search", :value=>h(params[:search]), :placeholder=>"Search", :results=>0, :size=>30} 
   .right
+    = select_tag :category_id, options_from_collection_for_select(Category.all << Category.new('name' => 'Filter by Category'), :id, :name, nil)
     = link_to 'Thumbnail View', admin_assets_url, :class => 'btn btn-small list-view-toggle'
     = link_to 'List View', admin_assets_url(:list_view => true), :class => 'btn btn-small list-view-toggle list'
 

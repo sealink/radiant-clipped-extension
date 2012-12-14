@@ -22,6 +22,10 @@ class Asset < ActiveRecord::Base
     { :conditions => ["LOWER(assets.asset_file_name) LIKE (:term) OR LOWER(title) LIKE (:term) OR LOWER(caption) LIKE (:term) OR LOWER(slug) LIKE (:term)", {:term => "%#{term.downcase}%" }] }
   }
 
+  named_scope :matching_category, lambda { |term|
+    { :conditions => ["category_id = ?", term] }
+  }
+
   named_scope :except, lambda { |assets| 
     if assets.any?
       assets = assets.split(',') if assets.is_a?(String)

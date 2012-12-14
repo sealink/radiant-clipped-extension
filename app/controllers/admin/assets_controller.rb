@@ -6,6 +6,7 @@ class Admin::AssetsController < Admin::ResourceController
     
     @term = params[:search] || ''
     assets = assets.matching(@term) if @term && !@term.blank?
+    assets = assets.matching_category(params[:category_id]) if params[:category_id].present?
     
     @types = params[:filter] || []
     if @types.include?('all')

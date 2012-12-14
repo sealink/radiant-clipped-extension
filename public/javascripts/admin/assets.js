@@ -94,6 +94,15 @@ Asset.ToggleView = Behavior.create({
   }
 });
 
+Asset.FilterByCategory = Behavior.create({
+  onchange: function (e) {
+    if (e) {
+      e.stop();
+      Asset.UpdateTable(true);
+    }
+  }
+});
+
 Asset.Detach = Behavior.create({
   onclick: function (e) {
     if (e) e.stop();
@@ -303,6 +312,7 @@ Event.addBehavior({
   'ul#attachment_fields': Asset.Sortable,
   'form.upload_asset': Asset.Upload,
   'a.attach_asset': Asset.Attach,
+  'select#category_id': Asset.FilterByCategory,
   'a.detach_asset': Asset.Detach,
   'a.insert_asset': Asset.Insert,
   'a.list-view-toggle': Asset.ToggleView,
