@@ -5,7 +5,7 @@ namespace :assets do
     old_assets = Asset.all(:conditions => ["category_id IS NULL OR category_id = ? OR slug IS NULL OR slug = ?", '', ''])
     old_assets.each do |asset|
       asset.category_id ||= Category.find_by_name('default').id
-      asset.slug ||= asset.title.parameterize
+      asset.slug ||= asset.title.try(:parameterize) || 'default-slug'
       asset.save
 
       old_path = Rails.root.to_s << "/public/system/assets/#{asset.id}/original/#{asset.asset_file_name}"
