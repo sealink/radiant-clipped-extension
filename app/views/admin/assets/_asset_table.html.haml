@@ -23,7 +23,7 @@
           %td
             = image_tag asset.thumbnail(:icon)
             = asset.title
-          %td= asset.category
+          %td= asset.category.try(:name)
           %td= asset.asset_file_size
           %td= asset.updated_at
           %td

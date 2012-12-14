@@ -3,6 +3,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :assets, :collection => { :refresh => :get, :regenerate => :post }, :member => { :refresh => :put }
     admin.resources :page_attachments, :only => [:new]
     admin.resources :pages, :has_many => :page_attachments
+    admin.resources :categories
   end
 end
 

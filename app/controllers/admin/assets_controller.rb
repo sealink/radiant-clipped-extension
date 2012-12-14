@@ -27,7 +27,7 @@ class Admin::AssetsController < Admin::ResourceController
   def create
     @assets, @page_attachments = [], []
     params[:asset][:asset].to_a.each do |uploaded_asset|
-      @asset = Asset.create(:asset => uploaded_asset, :title => params[:asset][:title], :caption => params[:asset][:caption], :slug => params[:asset][:slug], :category => params[:asset][:category])
+      @asset = Asset.create(:asset => uploaded_asset, :title => params[:asset][:title], :caption => params[:asset][:caption], :slug => params[:asset][:slug], :category_id => params[:asset][:category_id])
       if params[:for_attachment]
         @page = Page.find_by_id(params[:page_id]) || Page.new
         @page_attachments << @page_attachment = @asset.page_attachments.build(:page => @page)
@@ -48,6 +48,8 @@ class Admin::AssetsController < Admin::ResourceController
       new_attachment = File.new(@asset.asset.path)
       @asset.asset.destroy
 
+      @asset.category = Category.find(params[:asset][:category_id]) # Category must be saved prior to Asset so the file is rewritten to its new location correctly.
+      @asset.save
       @asset.update_attributes(params[:asset].merge('asset' => new_attachment))
     end
     redirect_to admin_assets_path

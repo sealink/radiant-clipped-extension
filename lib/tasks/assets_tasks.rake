@@ -2,9 +2,9 @@ namespace :assets do
 
   desc "Sets default category and slug for already existing assets (which don't have them set), and moves them to their proper place."
   task :set_default_category_and_slug => :environment do
-    old_assets = Asset.all(:conditions => ["category IS NULL OR category = ? OR slug IS NULL OR slug = ?", '', ''])
+    old_assets = Asset.all(:conditions => ["category_id IS NULL OR category_id = ? OR slug IS NULL OR slug = ?", '', ''])
     old_assets.each do |asset|
-      asset.category ||= 'default'
+      asset.category_id ||= Category.find_by_name('default').id
       asset.slug ||= asset.title.parameterize
       asset.save
 

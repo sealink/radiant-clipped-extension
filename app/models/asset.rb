@@ -5,6 +5,7 @@ class Asset < ActiveRecord::Base
 
   belongs_to :created_by, :class_name => 'User'
   belongs_to :updated_by, :class_name => 'User'
+  belongs_to :category
 
   default_scope :order => "created_at DESC"
 
@@ -18,7 +19,7 @@ class Asset < ActiveRecord::Base
   }
 
   named_scope :matching, lambda { |term| 
-    { :conditions => ["LOWER(assets.asset_file_name) LIKE (:term) OR LOWER(title) LIKE (:term) OR LOWER(caption) LIKE (:term) OR LOWER(slug) LIKE (:term) OR LOWER(category) LIKE (:term)", {:term => "%#{term.downcase}%" }] }
+    { :conditions => ["LOWER(assets.asset_file_name) LIKE (:term) OR LOWER(title) LIKE (:term) OR LOWER(caption) LIKE (:term) OR LOWER(slug) LIKE (:term)", {:term => "%#{term.downcase}%" }] }
   }
 
   named_scope :except, lambda { |assets| 

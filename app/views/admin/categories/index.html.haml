@@ -1,0 +1,23 @@
+- include_stylesheet 'admin/assets'
+- include_javascript 'admin/assets'
+
+%h1
+  Categories
+
+= link_to 'Add New Category', new_admin_category_path, :class => 'btn btn-primary'
+%br
+%br
+
+%table.table.table-condensed.table-bordered
+  %tr
+    %th
+      Name
+    %th
+      Actions
+  - @categories.each do |category|
+    %tr
+      %td
+        = category.name
+      %td
+        = link_to 'Edit', edit_admin_category_path(category), :class => 'btn'
+        = link_to 'Remove', admin_category_path(category), :class => 'btn', :method => :delete, :confirm => "All assets with this category will be changed to the default category. Proceed?"
