@@ -8,9 +8,15 @@ class AddCategoryModel < ActiveRecord::Migration
       t.integer :category_id
     end
 
+    Category.create('name' => 'default')
+
     Asset.all.each do |asset|
-      c = Category.create('name' => asset.category)
-      asset.category = c
+      if asset.category.present?
+        c = Category.find_by_name(asset.category) || Category.create('name' => asset.category)
+      else
+        c = Category.find_by_name('default')
+      end
+      asset.category_id = c.id
       asset.save
     end
 
