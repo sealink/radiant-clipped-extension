@@ -61,21 +61,33 @@ Asset.Upload = Behavior.create({
 Asset.Attach = Behavior.create({
   onclick: function (e) {
     if (e) e.stop();
-    var container = this.element.up('li.asset');
-    var title = container.down('div.title').innerHTML;
-    var image = container.down('img');
-    var placeholder = Asset.AddPlaceholder(title, image);
-    container.addClassName('waiting');
-    new Ajax.Request(this.element.href, {
-      asynchronous: true, 
-      evalScripts: false, 
-      method: 'get',
-      onSuccess: function(transport) { 
-        container.removeClassName('waiting');
-        placeholder.remove();
-        Asset.AddToList(transport.responseText); 
-      }
-    });
+    if (jQuery('#assets_table .table-condensed').length > 0) {
+      new Ajax.Request(this.element.href, {
+        asynchronous: true, 
+        evalScripts: false, 
+        method: 'get',
+        onSuccess: function(transport) { 
+          Asset.AddToList(transport.responseText); 
+        }
+      });
+    }
+    else {
+      var container = this.element.up('li.asset');
+      var title = container.down('div.title').innerHTML;
+      var image = container.down('img');
+      var placeholder = Asset.AddPlaceholder(title, image);
+      container.addClassName('waiting');
+      new Ajax.Request(this.element.href, {
+        asynchronous: true, 
+        evalScripts: false, 
+        method: 'get',
+        onSuccess: function(transport) { 
+          container.removeClassName('waiting');
+          placeholder.remove();
+          Asset.AddToList(transport.responseText); 
+        }
+      });
+    }
   }
 });
 
