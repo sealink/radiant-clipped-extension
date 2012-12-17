@@ -84,10 +84,14 @@ Asset.ToggleView = Behavior.create({
     if (e && jQuery('#attach_asset').length > 0) {
       e.stop();
       if (e.target.hasClassName('list')) {
-        $('list_view').value = 'true';
+        $$('.thumb').first().removeClassName('activated');
+        $$('.list').first().addClassName('activated');
+        $('thumbnail_view').value = '';
       }
       else {
-        $('list_view').value = '';
+        $$('.thumb').first().addClassName('activated');
+        $$('.list').first().removeClassName('activated');
+        $('thumbnail_view').value = 'true';
       }
       Asset.UpdateTable(true);
     }
