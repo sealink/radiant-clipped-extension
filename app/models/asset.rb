@@ -53,6 +53,7 @@ class Asset < ActiveRecord::Base
                     :fog_host => RadiantClippedExtension::Cloud.host
 
   before_save :assign_title
+  before_save :assign_slug
   before_save :assign_uuid
   
   after_post_process :read_dimensions
@@ -182,6 +183,10 @@ private
 
   def assign_title
     self.title = basename unless title?
+  end
+
+  def assign_slug
+    self.slug = title.try(:parameterize).try(:presence) || 'default-slug' unless slug?
   end
   
   def assign_uuid

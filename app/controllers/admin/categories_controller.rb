@@ -1,4 +1,5 @@
 class Admin::CategoriesController < Admin::ResourceController
+
   def index
     @categories = Category.all
     render 'index'
@@ -11,4 +12,5 @@ class Admin::CategoriesController < Admin::ResourceController
   ensure
     redirect_to admin_categories_path
   end
+
 end
