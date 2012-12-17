@@ -1,7 +1,7 @@
 - assets ||= @assets
 - page ||= @page
 - with_pagination ||= false
-- list_view ||= params[:list_view]
+- thumbnail_view ||= params[:thumbnail_view]
 
 - if assets.empty?
   %p
@@ -10,7 +10,7 @@
   - if with_pagination && assets.respond_to?(:total_pages) && assets.total_pages > 1
     = pagination_for(assets, pagination_parameters.merge(:depaginate => false, :params => {:controller => 'admin/assets', :action => 'index', :id => nil, :format => 'js'}))
 
-  - if list_view.present?
+  - unless thumbnail_view.present?
     %table.table.table-bordered.table-condensed
       %tr
         %th= "Title"
@@ -27,9 +27,14 @@
           %td= number_to_human_size(asset.asset_file_size)
           %td= asset.updated_at.to_date
           %td
-            = link_to "Download", asset.thumbnail(:original), :target => '_blank', :class => 'download btn btn-small'
-            = link_to "Edit", admin_asset_path(asset), :class => 'edit btn btn-small'
-            = link_to "Remove", remove_admin_asset_path(asset), :class => 'delete btn btn-small'
+            - if @page
+              = asset_insertion_link(asset)
+              %br
+              = asset_attachment_link(asset)
+            - else
+              = link_to "Download", asset.thumbnail(:original), :target => '_blank', :class => 'download btn btn-small'
+              = link_to "Edit", admin_asset_path(asset), :class => 'edit btn btn-small'
+              = link_to "Remove", remove_admin_asset_path(asset), :class => 'delete btn btn-small'
   - else
     %ul
       - assets.each_with_index do |asset, index|
