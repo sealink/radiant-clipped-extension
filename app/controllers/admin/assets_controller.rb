@@ -46,12 +46,16 @@ class Admin::AssetsController < Admin::ResourceController
     if params[:id]
       @asset = Asset.find(params[:id])
 
-      new_attachment = File.new(@asset.asset.path)
-      @asset.asset.destroy
+      if params[:asset][:asset]
+        @asset.update_attributes(params[:asset])
+      else
+        new_attachment = params[:asset][:asset] || File.new(@asset.asset.path)
+        @asset.asset.destroy
 
-      @asset.category = Category.find(params[:asset][:category_id]) # Category must be saved prior to Asset so the file is rewritten to its new location correctly.
-      @asset.save
-      @asset.update_attributes(params[:asset].merge('asset' => new_attachment))
+        @asset.category = Category.find(params[:asset][:category_id]) # Category must be saved prior to Asset so the file is rewritten to its new location correctly.
+        @asset.save
+        @asset.update_attributes(params[:asset].merge('asset' => new_attachment))
+      end
     end
     redirect_to admin_assets_path
   end
