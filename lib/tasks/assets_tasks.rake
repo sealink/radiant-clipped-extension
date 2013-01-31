@@ -31,6 +31,7 @@ namespace :assets do
 
     puts "Enter the full path of the assets_to_import directory on the file system: (e.g. /users/JohnDoe/assets_to_import)"
     path = STDIN.gets.chomp
+    path.chop! if path.end_with?('/')
 
     assets_to_import = Dir["#{path}/**/*.jpg"]
     assets_to_import.each do |asset|
@@ -50,9 +51,8 @@ namespace :assets do
         puts "Category created! Name: #{category_name}"
       end
 
-      asset = Asset.create(:title => title, :category => category)
+      asset = Asset.create(:title => title, :category => category, :asset => file)
       puts "Asset created! Title: #{title}, ID: #{asset.id}"
-      asset.update_attributes('asset' => file)
     end
   end
 
