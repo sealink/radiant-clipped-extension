@@ -21,4 +21,31 @@ namespace :assets do
     end
   end
 
+  desc "Import assets into the database from files within a directory."
+  task :import => :environment do
+    puts "\nBefore beginning, move all assets you wish to import into a directory named assets_to_import."
+    puts "Inside this directory, place the assets into separate subfolders if you wish them to be categorized."
+    puts "Continue with import? (y/n)"
+    response = STDIN.gets.chomp
+    return unless ['y', 'Y', 'yes', 'Yes'].include?(response)
+
+    puts "Enter the full path of the assets_to_import directory on the file system: "
+    path = STDIN.gets.chomp
+
+    assets_to_import = Dir["#{path}/**/*.jpg"]
+    assets_to_import.each do |asset|
+      file = File.new(asset)
+      title = (asset.match /([^\/]*).jpg$/)[1] # all characters between last forward slash and ending .jpg i.e. filename
+      category_name_match = (asset.match /assets_to_import\/([^\/]*)\//) # name of directory below assets_to_import
+      category_name = if category_name_match
+        category_name_match[1]
+      else
+        'default'
+      end
+      category = Category.find_by_name(category_name) || Category.create(:name => category_name)
+      asset = Asset.create(:title => title, :category => category)
+      asset.update_attributes('asset' => file)
+    end
+  end
+
 end
