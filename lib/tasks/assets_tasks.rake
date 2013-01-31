@@ -29,7 +29,7 @@ namespace :assets do
     response = STDIN.gets.chomp
     return unless ['y', 'Y', 'yes', 'Yes'].include?(response)
 
-    puts "Enter the full path of the assets_to_import directory on the file system: "
+    puts "Enter the full path of the assets_to_import directory on the file system: (e.g. /users/JohnDoe/assets_to_import)"
     path = STDIN.gets.chomp
 
     assets_to_import = Dir["#{path}/**/*.jpg"]
@@ -42,8 +42,16 @@ namespace :assets do
       else
         'default'
       end
-      category = Category.find_by_name(category_name) || Category.create(:name => category_name)
+
+      if Category.find_by_name(category_name)
+        category = Category.find_by_name(category_name)
+      else
+        category = Category.create(:name => category_name)
+        puts "Category created! Name: #{category_name}"
+      end
+
       asset = Asset.create(:title => title, :category => category)
+      puts "Asset created! Title: #{title}, ID: #{asset.id}"
       asset.update_attributes('asset' => file)
     end
   end
