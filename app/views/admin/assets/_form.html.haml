@@ -26,7 +26,7 @@
               %label{ :for => "asset_category" }
                 Category
             %td
-              = f.select :category_id, options_from_collection_for_select(Category.all, :id, :name, current_object.category_id || Category.find_by_name('default').id)
+              = f.select :category_id, options_from_collection_for_select(Category.ordered, :id, :name, current_object.category_id || Category.find_by_name('default').id)
 
           = render_region :extended_metadata, :locals => {:f => f}
       .drawer_handle

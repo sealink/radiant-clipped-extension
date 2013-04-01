@@ -1,6 +1,6 @@
 class Admin::CategoriesController < Admin::ResourceController
   def index
-    @categories = Category.all
+    @categories = Category.ordered
     render 'index'
   end
 

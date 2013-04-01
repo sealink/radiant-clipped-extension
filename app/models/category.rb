@@ -4,6 +4,8 @@ class Category < ActiveRecord::Base
   before_destroy :reattach_assets_if_destroyable
   before_update :updatable?
 
+  named_scope :ordered, :order => :name
+
   def reattach_assets_if_destroyable
     raise ActiveRecord::ActiveRecordError, "You cannot delete the default category." if name == DEFAULT_CATEGORY
 

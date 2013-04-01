@@ -13,7 +13,7 @@
     = hidden_field_tag "thumbnail_view", params['thumbnail_view']
     %input{:type=>"search", :class=>"search", :name=>"search", :value=>h(params[:search]), :placeholder=>"Search", :results=>0, :size=>30} 
   .right
-    = select_tag :category_id, options_from_collection_for_select([Category.new('name' => 'Filter by Category')] + Category.all(:order => :name), :id, :name, nil)
+    = select_tag :category_id, options_from_collection_for_select([Category.new('name' => 'Filter by Category')] + Category.ordered, :id, :name, nil)
     = link_to 'Thumbnail View', admin_assets_url(:thumbnail_view => true), :class => 'btn btn-small list-view-toggle thumb'
     = link_to 'List View', admin_assets_url, :class => 'btn btn-small list-view-toggle list activated'
 
