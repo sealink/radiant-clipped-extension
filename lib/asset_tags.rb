@@ -232,7 +232,7 @@ module AssetTags
     options['alt'] ||= tag.locals.asset.title
     attributes = options.inject('') { |s, (k, v)| s << %{#{k.downcase}="#{v}" } }.strip
     url = tag.locals.asset.thumbnail(size)
-    %{<img src="#{url}" #{attributes} />} rescue nil
+    %{<img src="#{url}" #{attributes} />}.html_safe rescue nil
   end
   
   desc %{
@@ -291,7 +291,7 @@ module AssetTags
     attributes = " #{attributes}" unless attributes.empty?
     text = tag.double? ? tag.expand : text
     url = asset.thumbnail(size)
-    %{<a href="#{url  }#{anchor}"#{attributes}>#{text}</a>} rescue nil
+    %{<a href="#{url}#{anchor}"#{attributes}>#{text}</a>}.html_safe rescue nil
   end
     
 private
