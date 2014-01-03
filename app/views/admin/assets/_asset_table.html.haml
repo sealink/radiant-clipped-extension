@@ -32,9 +32,9 @@
               %br
               = asset_attachment_link(asset)
             - else
-              = link_to "Download", asset.thumbnail(:original), :target => '_blank', :class => 'download btn btn-small'
-              = link_to "Edit", admin_asset_path(asset), :class => 'edit btn btn-small'
-              = link_to "Remove", remove_admin_asset_path(asset), :class => 'delete btn btn-small'
+              = link_to "Download", asset.thumbnail(:original), :target => '_blank', :class => 'download btn btn-sm btn-default'
+              = link_to "Edit", admin_asset_path(asset), :class => 'edit btn btn-sm btn-default'
+              = link_to "Remove", remove_admin_asset_path(asset), :class => 'delete btn btn-sm btn-default'
   - else
     %ul
       - assets.each_with_index do |asset, index|

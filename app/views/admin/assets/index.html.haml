@@ -11,11 +11,14 @@
   %p{:style => 'clear: both; height: 2em'} &nbsp;
 
 - render_region :bottom do |bottom|
-  #actions
-    = pagination_for @assets, :depaginate => false
-    %ul
-      %li= link_to((image('upload') + ' ' + t('clipped_extension.upload_asset')), new_admin_asset_path)
-      %li= link_to 'Manage Categories', admin_categories_path
+  .asset-actions.clearfix
+
+    .pull-right= pagination_for @assets, :depaginate => false
+
+    .btn-group.pull-left
+      %a.btn.btn-default.btn-sm{:href => new_admin_asset_path}
+        =image('upload') + ' ' + t('clipped_extension.upload_asset')
+      %a.btn.btn-default.btn-sm{:href => admin_categories_path} Manage Categories
       - if current_user.admin?
-        %li
-          = link_to t('clipped_extension.regenerate_thumbnails'), refresh_admin_assets_path
+        %a.btn.btn-default.btn-sm{:href => refresh_admin_assets_path}
+          =t('clipped_extension.regenerate_thumbnails')
