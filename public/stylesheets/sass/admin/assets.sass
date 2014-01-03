@@ -1,9 +1,12 @@
 @import "base"
 
+/* ==========================================================================
+ * Assets
+ * ========================================================================== */
+
 p.asset
   img.preview
     border: 5px solid white
-    +box-shadow
 
 .asset_filters
   float: left
@@ -26,10 +29,7 @@ p.asset
         +box-shadow(0, 1px, 1px, #333, inset)
         color: white
         text-shadow: 0 1px 0 #333
-.popup_window
-  width: 70%
-#category_id
-  margin: 0
+
 .popup
   div.toolbar
     background: white
@@ -39,7 +39,7 @@ p.asset
     margin: -20px -20px 0
     padding: 6px 10px 3px 10px
     font-size: 95%
-    / height: 30px
+    height: 30px
     +clearfix
     .right
       float: right
@@ -88,41 +88,42 @@ p.asset
     li.asset
       display: block
       float: left
-      margin: 8px 0 0 8px
+      margin: 15px 15px 0 0
       width: 110px
       height: 110px
       position: relative
       line-height: 1.2em
       .front, .back
-        display: block
-        background: #e6eaed
-        border: 5px solid white
         position: absolute
         width: 100px
         height: 100px
         text-align: center
       .front
-        +box-shadow
+        // +box-shadow
         text-align: center
       .back
         color: #333
         overflow: hidden
         +opacity(0)
+        background: white
       .title
         color: #333
-        font-size: 10px
-        overflow: hidden
+        font-size: 12px
+        // overflow: hidden
         margin: 10px 4px
-        height: 15px
-        line-height: 15px
-        text-overflow: ellipsis
+        //height: 15px
+        //line-height: 15px
+        //text-overflow: ellipsis
       .icon
         height: 63px
         line-height: 63px
         img
           vertical-align: bottom
       ul.actions
+        margin: 0
+        list-type: none
         li
+          display: inline
           margin: 5px 0
           padding: 0 10px
           font-size: 10px
@@ -132,19 +133,21 @@ p.asset
           +border-radius
           color: #ddd
           display: block
-          padding: 2px 10px
+          padding: 2px 5px
           text-decoration: none
+          margin: 3px
+          float: left
           &:hover
             background: #999
             background: rgba(black, 0.6)
             color: white
+
       &.unsaved
         .front
           opacity: 0.4
       &:hover
         .back
           +opacity(1)
-          background: rgba(white, 0.6)
       &.waiting
         background-color: #E6EAED
         .back
@@ -153,17 +156,24 @@ p.asset
           background: transparent url(/images/admin/spinner.gif) no-repeat center center
           img
             opacity: 0.2
-
+    li.asset.link
+      .back
+        +opacity(1)
 #attachment_list.assets
-  background: #7e7e7e
+  background: #fff
   +border-bottom-radius
-  margin: -1em 0.5em 1em 0.5em
+  margin: 1em
+  border-top: 1px solid #ccc
   overflow-y: hidden
   overflow-x: auto
-  ul.empty
-    display: none
+
+  ul
+    margin: 0
+    padding: 0
+    .empty
+      display: none
   p.note
-    font-size: 80%
+    //font-size: 80%
     margin: 0
     padding: 8px
     clear: left
@@ -177,9 +187,6 @@ p.asset
       div.back
         cursor: move
 
-#assets_table.assets_list
-  vertical-align: middle
-
 #assets_table.assets
   position: relative
   font-size: 75%
@@ -191,40 +198,50 @@ p.asset
     font-style: oblique
   ul
     clear: both
+    margin: 0
+    list-style: none
+
     li.asset
       input
         display: none
-  div.pagination
-    position: relative
-    overflow: hidden
-    clear: left
-    width: 100%
-    height: 3em
-    padding: 0.5em 0
-    span, a
-      display: block
-      float: left
-      padding: 0.25em
-      margin: 1em 2px 1em 0
-      +border-radius(2px)
-      text-decoration: none
-    span.current
-      color: #000
-      font-weight: bold
-    span.disabled
-      background-color: #eee
-      color: #ccc
-    a
-      background-color: #eee
-      color: #444
-      &:hover
-        background-color: #c00
-        color: #fff
 
-    span
-      color: #888
-    span, a
-      display: block
-      float: left
-      padding: 2px 6px
-      line-height: 1.5em
+
+.pagination
+  display: inline-block
+  padding-left: 0
+  margin: 0 0 20px !important // override bootstrap
+  border-radius: 4px
+
+  span, a
+    position: relative
+    float: left
+    padding: 6px 12px
+    line-height: 1.428571429
+    text-decoration: none
+    background-color: white
+    border: 1px solid #dddddd
+    margin-left: -1px
+
+  a:first-child , span:first-child
+    margin-left: 0
+    border-bottom-left-radius: 4px
+    border-top-left-radius: 4px
+
+  a:last-child, span:last-child
+    border-bottom-right-radius: 4px
+    border-top-right-radius: 4px
+
+  a:hover, a:focus, span:hover, span:focus
+    background-color: #eeeeee
+
+  .current
+    z-index: 2
+    color: white
+    background-color: #428bca
+    border-color: #428bca
+    cursor: default
+  .disabled, .gap
+    color: #999999
+    background-color: white
+    border-color: #dddddd
+
