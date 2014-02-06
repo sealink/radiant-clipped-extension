@@ -55,6 +55,7 @@ class Asset < ActiveRecord::Base
   before_save :assign_title
   before_save :assign_slug
   before_save :assign_uuid
+  before_save :assign_category
   
   after_post_process :read_dimensions
 
@@ -191,6 +192,10 @@ private
   
   def assign_uuid
     self.uuid = UUIDTools::UUID.timestamp_create.to_s unless uuid?
+  end
+
+  def assign_category
+    self.category = Category.find_by_name(Category::PAGE_ASSET_CATEGORY) unless category_id?
   end
   
   class << self
